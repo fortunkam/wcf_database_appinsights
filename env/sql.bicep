@@ -1,6 +1,7 @@
 // Add sql server and database
 param prefix string
 param resourceGroupLocation string = resourceGroup().location
+param scriptUri string = 'https://raw.githubusercontent.com/fortunkam/wcf_database_appinsights/main/env/setup_database.sql'
 
 var contributorRoleDefinitionId = 'b24988ac-6180-42a0-ab88-20f7382dd24c'
 
@@ -78,7 +79,7 @@ resource createDatabaseTable 'Microsoft.Resources/deploymentScripts@2020-10-01' 
     forceUpdateTag: utcValue
     azPowerShellVersion: '6.4'
     scriptContent: loadTextContent('./deploy_database.ps1')
-    arguments: '-dbName \'${sqldatabase.name}\' -serverName \'${sqlserver.name}\' -sqlUser \'${sqlUser}\' -sqlPassword \'${sqlPassword}\' -resourceGroupName \'${resourceGroup().name}\''
+    arguments: '-dbName \'${sqldatabase.name}\' -serverName \'${sqlserver.name}\' -sqlUser \'${sqlUser}\' -sqlPassword \'${sqlPassword}\' -resourceGroupName \'${resourceGroup().name}\' -scriptUri \'${scriptUri}\''
     timeout: 'PT1H'
     cleanupPreference: 'OnSuccess'
     retentionInterval: 'P1D'

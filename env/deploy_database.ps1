@@ -2,7 +2,8 @@ param([string] $dbName,
     [string] $serverName, 
     [string] $sqlUser, 
     [string] $sqlPassword,
-    [string] $resourceGroupName)
+    [string] $resourceGroupName,
+    [string] $scriptUri)
 
 Install-Module -Name SqlServer -Force -Confirm:$false -AllowClobber -Scope CurrentUser
 Write-Output "Imported module"
@@ -18,6 +19,10 @@ New-AzSqlServerFirewallRule -ServerName $serverName -FirewallRuleName create-tab
 
 Start-Sleep -Seconds 120
 
+$sqlQuery = (Invoke-WebRequest -Uri $scriptUri -Method 'GET').Content
+
+Write-Output $sqlQuery
+
 $fullSqlServerFQDN = "$serverName.database.windows.net"
 
 $sqlParams = @{
@@ -25,6 +30,6 @@ $sqlParams = @{
     'ServerInstance' = $fullSqlServerFQDN
     'Username'       = $sqlUser
     'Password'       = $sqlPassword
-    'Query'          = 'CREATE TABLE dbo.test (id int, name varchar(50));'
+    'Query'          = $sqlQuery
 }
 Invoke-Sqlcmd @sqlParams
