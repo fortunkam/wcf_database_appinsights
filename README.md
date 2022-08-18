@@ -1,0 +1,1 @@
+# wcf_database_appinsights
