@@ -5,6 +5,7 @@ param sqlDatabaseName string
 @secure()
 param sqlPassword string
 param sqlUser string
+param scriptIdentityId string
 
 param appInsightsInstrumentionKey string
 
@@ -47,4 +48,26 @@ resource webApplication 'Microsoft.Web/sites@2021-03-01' = {
   }
   kind: 'app'
 }
+
+resource createWebFirewallRules 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
+  name: '${prefix}-create-web-firewall-rules'
+  location: resourceGroupLocation
+  kind: 'AzurePowerShell'
+  identity: {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${scriptIdentityId}': {}
+    }
+  }
+  properties: {
+    azPowerShellVersion: '6.4'
+    scriptContent: loadTextContent('./add_webapp_outboundip_to_sql.ps1')
+    arguments: '-sqlServerName \'${sqlServerName}\' -webAppName \'${webApplication.name}\' -resourceGroupName \'${resourceGroup().name}\''
+    timeout: 'PT1H'
+    cleanupPreference: 'OnSuccess'
+    retentionInterval: 'P1D'
+  }
+}
+
+
 

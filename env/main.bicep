@@ -44,6 +44,7 @@ module app 'app.bicep' = {
     sqlDatabaseName: sql.outputs.sqlDatabaseName
     sqlUser: sqlUser
     sqlPassword: sqlPassword
+    scriptIdentityId: sql.outputs.scriptIdentityId
   }
 }
 

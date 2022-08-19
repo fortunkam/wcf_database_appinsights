@@ -10,7 +10,6 @@ var contributorRoleDefinitionResourceId = resourceId('Microsoft.Authorization/ro
 @secure()
 param sqlPassword string
 param sqlUser string = 'mfadmin'
-param utcValue string = utcNow()
 param userIPAddress string
 
 
@@ -87,5 +86,6 @@ resource createDatabaseTable 'Microsoft.Resources/deploymentScripts@2020-10-01' 
 
 output sqlServerName string = sqlserver.name
 output sqlDatabaseName string = sqldatabase.name
+output scriptIdentityId string = scriptIdentity.id
 
 
