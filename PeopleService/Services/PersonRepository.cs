@@ -18,11 +18,11 @@ namespace PeopleService.Services
         }
         public Person GetPersonByName(string firstName)
         {
-            using (var sqlConnection = new SqlConnection(""))
+            using (var sqlConnection = new SqlConnection(_connectionString))
             {
                 sqlConnection.Open();
-                var result = sqlConnection.Query("SELECT id, firstname FROM dbo.Person WHERE firstname = '@firstName'",
-                    new { firstName = firstName }, commandType: CommandType.Text)
+                var result = sqlConnection.Query("SELECT id, firstname FROM dbo.People WHERE firstname = @FirstName",
+                    new { FirstName = firstName }, commandType: CommandType.Text)
                     .First();
 
                 return new Person() { Id = result.id, FirstName = result.firstname };
@@ -31,7 +31,7 @@ namespace PeopleService.Services
 
         public Person[] GetPeople()
         {
-            using (var sqlConnection = new SqlConnection(""))
+            using (var sqlConnection = new SqlConnection(_connectionString))
             {
                 sqlConnection.Open();
                 var results = sqlConnection.Query("getPeople", commandType: CommandType.StoredProcedure)
@@ -43,7 +43,7 @@ namespace PeopleService.Services
 
         public Person GetPersonById(int id)
         {
-            using (var sqlConnection = new SqlConnection(""))
+            using (var sqlConnection = new SqlConnection(_connectionString))
             {
                 sqlConnection.Open();
                 var result = sqlConnection.Query("getPersonById", new { id = id }, commandType: CommandType.StoredProcedure)
