@@ -33,5 +33,18 @@ module logging 'logging.bicep' = {
     resourceGroupLocation: resourceGroupLocation
   }
 }
+module app 'app.bicep' = {
+  name: '${prefix}-app-deploy'
+  scope: rg
+  params: {
+    prefix:  '${prefix}-app'
+    resourceGroupLocation: resourceGroupLocation
+    appInsightsInstrumentionKey: logging.outputs.instrumentationKey
+    sqlServerName: sql.outputs.sqlServerName
+    sqlDatabaseName: sql.outputs.sqlDatabaseName
+    sqlUser: sqlUser
+    sqlPassword: sqlPassword
+  }
+}
 
 

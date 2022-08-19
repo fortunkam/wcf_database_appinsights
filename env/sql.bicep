@@ -76,7 +76,6 @@ resource createDatabaseTable 'Microsoft.Resources/deploymentScripts@2020-10-01' 
   }
   dependsOn: [scriptIdentityRoleAssignment]
   properties: {
-    forceUpdateTag: utcValue
     azPowerShellVersion: '6.4'
     scriptContent: loadTextContent('./deploy_database.ps1')
     arguments: '-dbName \'${sqldatabase.name}\' -serverName \'${sqlserver.name}\' -sqlUser \'${sqlUser}\' -sqlPassword \'${sqlPassword}\' -resourceGroupName \'${resourceGroup().name}\' -scriptUri \'${scriptUri}\''
