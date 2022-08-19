@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PeopleService.Models;
+using PeopleService.Services;
+using System;
 
 namespace PeopleService
 {
@@ -6,19 +8,25 @@ namespace PeopleService
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class PersonRetriever : IPersonRetriever
     {
-        public string GetData(int value)
+        private readonly IPersonRepository _personRepository;
+
+        public PersonRetriever()
         {
-            throw new NotImplementedException();
+            _personRepository = new PersonRepository();
+        }
+        public Person GetPersonByName(string firstName)
+        {
+            return _personRepository.GetPersonByName(firstName); 
         }
 
         public Person[] GetPeople()
         {
-            throw new NotImplementedException();
+            return _personRepository.GetPeople();   
         }
 
         public Person GetPersonById(int id)
         {
-            throw new NotImplementedException();
+            return _personRepository.GetPersonById(id); 
         }
     }
 }
