@@ -28,3 +28,4 @@ CREATE PROCEDURE dbo.getPeople
 AS 
     SET NOCOUNT ON;
     SELECT id,firstname FROM dbo.People ORDER BY firstname;
+GO

@@ -349,3 +349,4 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 PeopleService/Properties/ServiceDependencies/wcf-app-app-site - Web Deploy/profile.arm.json
+PersonRetriever-soapui-project.xml
